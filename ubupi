@@ -444,7 +444,7 @@ if [[ -z $CONFIGURE_ONLY ]] ; then
       exit 10
     fi
 
-    if [[ "$(file "${image}")" == *"Zip archive"* ]]; then
+    if [[ "$(file "${image}")" =~ "Zip archive" ]]; then
       command -v unzip 2>/dev/null || error "Error: unzip not found. Aborting" 1
       echo "Uncompressing ${image} ..."
       unzip -o "${image}" -d /tmp
@@ -453,14 +453,14 @@ if [[ -z $CONFIGURE_ONLY ]] ; then
       echo "Use ${image}"
     fi
 
-    if [[ "$(file "${image}")" == *"gzip compressed data"* ]]; then
+    if [[ "$(file "${image}")" =~ "gzip compressed data" ]]; then
       echo "Uncompressing ${image} ..."
       gzip -d "${image}" -c >/tmp/image.img
       image=/tmp/image.img
       echo "Use ${image}"
     fi
 
-    if [[ "$(file "${image}")" == *"XZ compressed data"* || "$(file "${image}")" == *"xz compressed data"* ]]; then
+    if [[ "$(file "${image}")" =~ "XZ compressed data" || "$(file "${image}")" =~ "xz compressed data" ]]; then
       command -v xz 2>/dev/null || error "Error: unzip not found. Aborting" 1
       echo "Uncompressing ${image} ..."
       xz -d "${image}" -c >/tmp/image.img
